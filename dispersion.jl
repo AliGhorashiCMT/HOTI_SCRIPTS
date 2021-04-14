@@ -18,6 +18,8 @@ for plane_group in 1:10
                 for coord in all_kvec_coords
                     push!(kveclist, coord)
                 end
+	    elseif contains(line, "Ws") || contains(line, "ws") || contains(line, "opidxs")
+
             else
                 push!(lines, line)
             end
@@ -33,7 +35,7 @@ for plane_group in 1:10
                 interpolatedkvecs[(i-1)*interpolation_int+j, :] = (reshaped_kveclist[i+1, :]-reshaped_kveclist[i, :])*(j-1)/interpolation_int+reshaped_kveclist[i, :]
             end
         end
-        interpolatedkvecs[(num_initial_kvecs-1)*interpolation_int+1, 2] = reshaped_kveclist[num_initial_kvecs, 2]
+        interpolatedkvecs[(num_initial_kvecs-1)*interpolation_int+1, :] = reshaped_kveclist[num_initial_kvecs, :]
         interpolatedkvecs  = round.(interpolatedkvecs, digits = 10)
         kvecstring = "(list "
         for ikvec in eachrow(interpolatedkvecs) 
